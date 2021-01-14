@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using PoCAPIPagamento.APIMercadoPago.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -10,6 +12,9 @@ namespace PoCAPIPagamento.APIMercadoPago
     {
         public static void Register(HttpConfiguration config)
         {
+            // Configuração do AutoMapper
+            var mapperCfg = new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfile>());
+
             // Serviços e configuração da API da Web
 
             // Rotas da API da Web
