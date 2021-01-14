@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Http;
 
@@ -19,6 +20,10 @@ namespace PoCAPIPagamento.APIMercadoPago
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            var settings = ConfigurationManager.AppSettings;
+
+            MercadoPago.SDK.SetAccessToken(settings["APIKeys:AccessToken"]);
         }
     }
 }
