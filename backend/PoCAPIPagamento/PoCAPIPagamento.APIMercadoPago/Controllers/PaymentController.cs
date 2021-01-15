@@ -49,6 +49,7 @@ namespace PoCAPIPagamento.APIMercadoPago.Controllers
                 if (_service.ProcessarPagamento(_mapper.Map<Payment>(value)))
                     response.Message = "Pagamento processado com sucesso.";
                 else response.Message = "Não foi possível processar o pagamento.";
+                _logger.LogInformation(response.Message);
             }
             catch (Exception ex)
             {

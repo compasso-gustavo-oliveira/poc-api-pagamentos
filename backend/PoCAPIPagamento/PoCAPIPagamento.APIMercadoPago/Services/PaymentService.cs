@@ -2,6 +2,7 @@
 using MercadoPago.Common;
 using MercadoPago.Resources;
 using PoCAPIPagamento.APIMercadoPago.Models;
+using PoCAPIPagamento.APIMercadoPago.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Web;
 
 namespace PoCAPIPagamento.APIMercadoPago.Services
 {
-    public class PaymentService
+    public class PaymentService : IPaymentService
     {
         public bool ProcessarPagamento(Payment payment)
         {
