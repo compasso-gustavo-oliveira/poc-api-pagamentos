@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PoCAPIPagamento.APIMercadoPago
 {
