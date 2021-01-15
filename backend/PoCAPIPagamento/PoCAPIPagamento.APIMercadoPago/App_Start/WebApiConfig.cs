@@ -9,7 +9,6 @@ using PoCAPIPagamento.APIMercadoPago.Services;
 using Unity;
 using PoCAPIPagamento.APIMercadoPago.Services.Interfaces;
 using Unity.Lifetime;
-using PoCAPIPagamento.APIMercadoPago.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace PoCAPIPagamento.APIMercadoPago

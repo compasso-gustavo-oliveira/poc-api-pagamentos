@@ -1,0 +1,85 @@
+﻿@using PoCAPIPagamento.APIMercadoPago.Controllers
+@using PoCAPIPagamento.APIMercadoPago.Models.ViewModels
+@model PoCAPIPagamento.APIMercadoPago.Models.ViewModels.TestCardViewModel
+
+<div class="jumbotron">
+    <h1>Testes Com Cartões</h1>
+    @*<p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
+        <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Lista de dados válidos de cartões de teste</h2>
+        <p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align: left;">Cartão</th>
+                        <th style="text-align: center;">Número</th>
+                        <th style="text-align: center;">Código de segurança</th>
+                        <th style="text-align: center;">Data de vencimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: left;">Mastercard</td>
+                        <td style="text-align: center;">5031 4332 1540 6351</td>
+                        <td style="text-align: center;">123</td>
+                        <td style="text-align: center;">11/25</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">Visa</td>
+                        <td style="text-align: center;">4235 6477 2802 5682</td>
+                        <td style="text-align: center;">123</td>
+                        <td style="text-align: center;">11/25</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">American Express</td>
+                        <td style="text-align: center;">3753 651535 56885</td>
+                        <td style="text-align: center;">1234</td>
+                        <td style="text-align: center;">11/25</td>
+                    </tr>
+                </tbody>
+            </table>
+        </p>
+    </div>
+    @using (var form = Html.BeginForm())
+    {
+    <div class="col-md-4">
+        <h2>Preencha os dados do cartão</h2>
+        <p>
+            <div class="input-group">
+                @Html.LabelFor(m => m.Card.Type)
+                @Html.EnumDropDownListFor(m => m.Card.Type)
+            </div>
+            <div class="input-group">
+                @Html.LabelFor(m => m.Card.Number)
+                @Html.TextBoxFor(m => m.Card.Number)
+            </div>
+            <div class="input-group">
+                @Html.LabelFor(m => m.Card.SecurityCode)
+                @Html.TextBoxFor(m => m.Card.SecurityCode)
+            </div>
+            <div class="input-group">
+                @Html.LabelFor(m => m.Card.ExpirationDate)
+                @Html.TextBoxFor(m => m.Card.ExpirationDate)
+            </div>
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Escolha o resultado esperado para o pagamento</h2>
+        <p>
+            <div class="input-group">
+                @Html.LabelFor(m => m.Payer, "Reultado")
+                @Html.DropDownListFor(m => m.Payer,
+                    ((TestCardViewModel.TestCardResponseEnum[])Enum.GetValues(typeof(TestCardViewModel.TestCardResponseEnum)))
+                        .Select(e => new SelectListItem() { Text = e.ToDescriptionString(), Value = e.ToString() }),
+                    "Selecione um resultado")
+            </div>
+            <div class="input-group">
+                <input type="submit" value="Testar Cartão &raquo;" class="btn btn-default" />
+            </div>
+        </p>
+    </div>
+    }
+</div>
