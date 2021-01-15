@@ -12,7 +12,7 @@ namespace PoCAPIPagamento.APIMercadoPago.Services
 {
     public class PaymentService : IPaymentService
     {
-        public bool ProcessarPagamento(Payment payment)
+        public bool ProcessarPagamento(MercadoPago.Resources.Payment payment)
         {
             payment.Save();
             var status = payment.Status;

@@ -1,5 +1,10 @@
-﻿using System;
+﻿using MercadoPago.DataStructures.Generic;
+using Microsoft.Extensions.Logging;
+using PoCAPIPagamento.APIMercadoPago.Models.ResponseModels;
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -7,33 +12,41 @@ using System.Web.Http;
 
 namespace PoCAPIPagamento.APIMercadoPago.Controllers
 {
-    public class MercadoPagoController : ApiController
+    public abstract class MercadoPagoController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        protected readonly NameValueCollection _settings = ConfigurationManager.AppSettings;
+        protected readonly ILogger _logger;
+
+        public MercadoPagoController(ILogger logger)
         {
-            return new string[] { "value1", "value2" };
+            _logger = logger;
         }
 
-        // GET api/values/5
-        public string Get(int id)
+        protected void HandleErrors(Exception ex, 
+                                    ResponseModel response, 
+                                    string message = "Ocorreu um erro inesperado.")
         {
-            return "value";
+            response.Message = message;
+            var debug = false;
+            bool.TryParse(_settings["debug"], out debug);
+            if (debug)
+            {
+                response.Errors = new string[] { ex.StackTrace };
+            }
+            _logger.LogError(ex, response.Message);
         }
 
-        // POST api/values
-        public void Post([FromBody] string value)
+        protected void HandleErrors(BadParamsError error, 
+                                    ResponseModel response, 
+                                    string message = "Ocorreu um erro inesperado.")
         {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
+            response.Message = message;
+            bool.TryParse(_settings["debug"], out bool debug);
+            if (debug)
+            {
+                response.Errors = new string[] { error.Message };
+            }
+            _logger.LogError($"{response.Message}: {error.Message}");
         }
     }
 }

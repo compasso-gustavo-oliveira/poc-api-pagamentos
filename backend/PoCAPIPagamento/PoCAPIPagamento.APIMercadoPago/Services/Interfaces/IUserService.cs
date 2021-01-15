@@ -1,4 +1,5 @@
-﻿using MercadoPago.Resources;
+﻿using MercadoPago;
+using MercadoPago.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace PoCAPIPagamento.APIMercadoPago.Services.Interfaces
 {
-    public interface IPaymentService
+    public interface IUserService
     {
-        bool ProcessarPagamento(MercadoPago.Resources.Payment payment);
+        Customer CadastrarUsuario(Customer user);
     }
 }

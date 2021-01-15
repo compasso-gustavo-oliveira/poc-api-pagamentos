@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using PoCAPIPagamento.APIMercadoPago.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,6 +10,7 @@ using Unity;
 using PoCAPIPagamento.APIMercadoPago.Services.Interfaces;
 using Unity.Lifetime;
 using PoCAPIPagamento.APIMercadoPago.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace PoCAPIPagamento.APIMercadoPago
 {
@@ -18,16 +18,8 @@ namespace PoCAPIPagamento.APIMercadoPago
     {
         public static void Register(HttpConfiguration config)
         {
-            // Configuração do AutoMapper
-            var mapperCfg = new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfile>());
-
-            // Configuração de injeção de dependência
-            var container = new UnityContainer();
-            // Registrar novos itens para injeção de dependência aqui:
-            container
-                .RegisterType<IPaymentService, PaymentService>(new HierarchicalLifetimeManager());
-
-            config.DependencyResolver = new UnityResolver(container);
+            // Configurar injeção de dependências
+            UnityConfig.RegisterComponents(config);
 
             // Serviços e configuração da API da Web
 

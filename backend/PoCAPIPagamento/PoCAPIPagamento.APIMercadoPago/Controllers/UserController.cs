@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MercadoPago;
 using MercadoPago.Resources;
 using Microsoft.Extensions.Logging;
 using PoCAPIPagamento.APIMercadoPago.Models;
@@ -16,14 +17,14 @@ using System.Web.Http;
 
 namespace PoCAPIPagamento.APIMercadoPago.Controllers
 {
-    public class PaymentController : MercadoPagoController
+    public class UserController : MercadoPagoController
     {
         private readonly IMapper _mapper;
-        private readonly IPaymentService _service;
+        private readonly IUserService _service;
 
-        public PaymentController(IMapper mapper, 
-                                 ILogger<PaymentController> logger, 
-                                 IPaymentService service): base (logger)
+        public UserController(  IMapper mapper, 
+                                ILogger<UserController> logger, 
+                                IUserService service): base (logger)
         {
             _mapper = mapper;
             _service = service;
@@ -41,15 +42,18 @@ namespace PoCAPIPagamento.APIMercadoPago.Controllers
         }
 
         // POST api/values
-        public ResponseModel Post(PaymentModel value)
+        public ResponseModel Post(Customer value)
         {
             var response = new ResponseModel();
             try
             {
-                if (_service.ProcessarPagamento(_mapper.Map<Payment>(value)))
-                    response.Message = "Pagamento processado com sucesso.";
-                else response.Message = "Não foi possível processar o pagamento.";
-                _logger.LogInformation(response.Message);
+                var customer = _service.CadastrarUsuario(_mapper.Map<Customer>(value));
+                if (!customer.Errors.HasValue)
+                {
+                    response.Message = "Usuário cadastrado com sucesso.";
+                    _logger.LogInformation(response.Message);
+                }
+                else HandleErrors(customer.Errors.Value, response, "Não foi possível cadastrar o usuário.");
             }
             catch (Exception ex)
             {
