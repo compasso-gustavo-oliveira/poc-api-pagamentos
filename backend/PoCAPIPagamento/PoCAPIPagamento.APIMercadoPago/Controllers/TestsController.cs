@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PoCAPIPagamento.APIMercadoPago.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,10 +16,23 @@ namespace PoCAPIPagamento.APIMercadoPago.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Cards()
         {
             ViewBag.Title = "Testes API Mercado Pago - Cartões";
 
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Cards(TestCardViewModel model)
+        {
+            return RedirectToAction(nameof(this.CardsResult));
+        }
+
+        [HttpGet]
+        public ActionResult CardsResult()
+        {
             return View();
         }
     }
